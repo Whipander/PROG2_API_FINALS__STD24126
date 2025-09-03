@@ -36,3 +36,7 @@ def add_phone(phone_to_add: List[Phone]):
         phone_stored.append(phone)
 
     return JSONResponse(content=serialize_phone(), status_code=201)
+
+@app.get("/phones")
+def get_phones():
+    return JSONResponse(content=serialize_phone(), status_code=200)
