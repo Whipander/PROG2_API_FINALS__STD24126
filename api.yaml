@@ -69,6 +69,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Phone'
+        404:
+          $ref: "#/components/responses/NotFound"
+
+
+  /phones/{id}/characteristics:
+    put:
+      tags:
+        - Phones
+      parameters:
+        - $ref: "#/components/parameters/PhoneId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Characteristics"
+      
+      responses:
+        200:
+          description: Successfully updated characteristics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Phone"
+        404:
+          $ref: "#/components/responses/NotFound"
+
 
 
 
@@ -118,3 +145,13 @@ components:
       schema:
         type: string
         example: 123
+  responses:
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: Not found
