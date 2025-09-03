@@ -1,0 +1,120 @@
+openapi: 3.0.3
+info:
+  title: STD24126
+  description: This is a specification of STD24126
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8000'
+paths:
+  /health:
+    get:
+      description: Check the API health
+      responses:
+        200:
+          content:
+            text/plain:
+              example: Ok
+          description: The API is running successfully
+  
+  /phones:
+    get:
+      tags:
+        - Phones
+      description: Return all phones
+      responses:
+        200:
+          description: Successfully returned all phones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Phone"
+
+
+    post:
+      tags:
+        - Phones
+      description: Allow the user to create a list of phones.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Phone"
+
+
+
+      responses:
+        201:
+          description: Successfully created the phones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Phone"
+  /phones/{id}:
+    get:
+      tags:
+        - Phones
+      parameters:
+        - $ref: "#/components/parameters/PhoneId"
+      responses:
+        200:
+          description: Successfully found the phone
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Phone'
+
+
+
+
+
+components:
+  schemas:
+    Phone:
+      type: object
+      properties:
+        identifier:
+          type: string
+          example: 123
+        brand:
+          type: string
+          example: Samsung
+        model:
+          type: string
+          example: S25 Ultra
+        characteristics:
+          $ref: "#/components/schemas/Characteristics"
+      required:
+        - identifier
+        - characteristics
+        - brand
+        - model
+
+    Characteristics:
+      type: object
+      properties:
+        ram_memory:
+          type: integer
+          example: 12
+        rom_memory:
+          type: integer
+          example: 512
+      required:
+        - ram_memory
+        - rom_memory
+
+  parameters:
+    PhoneId:
+      name: id
+      required: true
+      in: path
+      description: The phone identifier
+      schema:
+        type: string
+        example: 123
