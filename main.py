@@ -48,3 +48,11 @@ def get_phone_by_id(id: str):
            return JSONResponse(content=phone.model_dump(), status_code=200)
 
    return JSONResponse(content={"error": "Not found"}, status_code=404)
+
+@app.put("/phones/{id}/characteristics")
+def update_phone_by_id(id: str, new_characteristics: Characteristic):
+    for phone in phone_stored:
+        if phone.identifier == id:
+            phone.characteristics = new_characteristics
+            return JSONResponse(content=phone.model_dump(), status_code=200)
+    return JSONResponse(content={"error": "Not found"}, status_code=404)
