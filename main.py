@@ -12,7 +12,7 @@ def ping():
 def get_health():
     return Response(content="Ok", status_code=200)
 
-class Characteristic:
+class Characteristic(BaseModel):
     ram_memory: int
     rom_memory: int
 
@@ -40,3 +40,11 @@ def add_phone(phone_to_add: List[Phone]):
 @app.get("/phones")
 def get_phones():
     return JSONResponse(content=serialize_phone(), status_code=200)
+
+@app.get("/phones/{id}")
+def get_phone_by_id(id: str):
+   for phone in phone_stored:
+       if phone.identifier == id:
+           return JSONResponse(content=phone.model_dump(), status_code=200)
+
+   return JSONResponse(content={"error": "Not found"}, status_code=404)
